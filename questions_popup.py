@@ -13,7 +13,7 @@ if 'WSLENV' not in os.environ and os.name == 'nt':
 
 
 
-FILE_NAME = "activities.csv"
+FILE_NAME = "activity_log.csv"
 
 
 class CustomSimpleDialog(simpledialog._QueryString):
