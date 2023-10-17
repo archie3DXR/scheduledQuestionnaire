@@ -10,10 +10,12 @@ if 'WSLENV' not in os.environ and os.name == 'nt':
     import ctypes
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-
-
-
 FILE_NAME = "activity_log.csv"
+
+script_directory = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_directory, FILE_NAME)
+
+
 
 
 class CustomSimpleDialog(simpledialog._QueryString):
@@ -39,10 +41,10 @@ def custom_ask_string(title, prompt):
 
 
 def get_last_planned_activity():
-    if not os.path.exists(FILE_NAME):
+    if not os.path.exists(csv_path):
         return None
 
-    with open(FILE_NAME, "r", newline='') as file:
+    with open(csv_path, "r", newline='') as file:
         reader = csv.reader(file)
         last_line = None
         for row in reader:
@@ -86,7 +88,7 @@ def main():
         return
 
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open('activity_log.csv', mode='a', newline='') as file:
+    with open(csv_path, mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([current_time, past_activity, next_activity])
 
