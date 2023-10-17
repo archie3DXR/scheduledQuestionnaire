@@ -1,3 +1,5 @@
+# task scheduled on windows 10 under Questionnaire GUI
+
 import csv
 import tkinter as tk
 from tkinter import simpledialog, messagebox
@@ -5,6 +7,7 @@ from datetime import datetime
 import os
 
 FILE_NAME = "activities.csv"
+
 
 def get_last_planned_activity():
     if not os.path.exists(FILE_NAME):
@@ -20,6 +23,7 @@ def get_last_planned_activity():
         return last_line[2]
     return None
 
+
 def ask_questions():
     root = tk.Tk()
     root.withdraw()
@@ -29,14 +33,22 @@ def ask_questions():
     planned_last_hour = get_last_planned_activity()
 
     if planned_last_hour:
-        past_activity = simpledialog.askstring("Activity Check", f"{current_time_display}\n\nWhat did you do in the last hour? (You planned: {planned_last_hour})")
+        past_activity = simpledialog.askstring(
+            "Activity Check",
+            f"{current_time_display}\n\nWhat did you do in the last hour? (You planned: {planned_last_hour})"
+        )
     else:
-        past_activity = simpledialog.askstring("Activity Check", f"{current_time_display}\n\nWhat did you do in the last hour?")
+        past_activity = simpledialog.askstring(
+            "Activity Check",
+            f"{current_time_display}\n\nWhat did you do in the last hour?")
 
-    next_activity = simpledialog.askstring("Activity Planning", f"{current_time_display}\n\nWhat's your plan for the next hour?")
+    next_activity = simpledialog.askstring(
+        "Activity Planning",
+        f"{current_time_display}\n\nWhat's your plan for the next hour?")
 
     root.destroy()
     return past_activity, next_activity
+
 
 def main():
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -45,6 +57,7 @@ def main():
     with open(FILE_NAME, "a", newline='') as file:
         writer = csv.writer(file)
         writer.writerow([current_time, past_activity, next_activity])
+
 
 if __name__ == "__main__":
     main()
